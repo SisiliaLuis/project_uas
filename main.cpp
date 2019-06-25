@@ -1,177 +1,175 @@
-/*
- * GLUT Shapes Demo
- *
- * Written by Nigel Stewart November 2003
- *
- * This program is test harness for the sphere, cone
- * and torus shapes in GLUT.
- *
- * Spinning wireframe and smooth shaded shapes are
- * displayed until the ESC or q key is pressed.  The
- * number of geometry stacks and slices can be adjusted
- * using the + and - keys.
- */
+#include <windows.h>
+#include "GL/glut.h"
+#include "stdio.h"
 
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
+float view_rotx = 20.0f, view_roty = 30.0f;
+int oldMouseX, oldMouseY;
 
-#include <stdlib.h>
+void initGL() {
+    glShadeModel(GL_FLAT);
 
-static int slices = 16;
-static int stacks = 16;
+    float ambient[] = {1.0f,1.0f,1.0f,1.0f};
+    float diffuse[] = {1.0f,1.0f,1.0f,1.0f};
+    float specular[] = {0.2f,1.0f,0.2f,1.0f};
+    float position[] = {20.0f,30.0f,20.0f,0.0f};
 
-/* GLUT callback Handlers */
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
 
-static void resize(int width, int height)
-{
-    const float ar = (float) width / (float) height;
+    float mambient[] ={0.1745f, 0.01175f, 0.01175f, 0.55f};
+    float mdiffuse[] ={0.61424f, 0.04136f, 0.04136f, 0.55f };
+    float mspecular[] ={0.727811f, 0.626959f, 0.626959f, 0.55f };
+    float mshine =76.8f;
 
-    glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
+    glMaterialfv(GL_FRONT,GL_AMBIENT,mambient);
+    glMaterialfv(GL_FRONT,GL_DIFFUSE,mdiffuse);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity() ;
+    glMaterialfv(GL_FRONT,GL_SPECULAR,mspecular);
+    glMaterialf (GL_FRONT,GL_SHININESS,mshine);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_COLOR_MATERIAL);
 }
 
-static void display(void)
-{
-    const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    const double a = t*90.0;
+void gmbr_drone(){
+glBegin(GL_POLYGON);
+glColor3f(0.0f,0.0f,0.0f);
+//depan
+ glVertex3f(0.0f, 0.0f, 0.0f);
+ glVertex3f(0.0f, 3.0f, 0.0f);
+ glVertex3f(0.5f, 3.5f, 0.0f);
+ glVertex3f(2.0f, 3.5f, 0.0f);
+ glVertex3f(2.5f, 3.0f, 0.0f);
+ glVertex3f(2.5f, 0.0f, 0.0f);
 
+ //belakang
+ glColor3f(0.0f,0.0f,0.0f);
+ glVertex3f(0.0f, 0.0f, -1.0f);
+ glVertex3f(0.0f, 3.0f, -1.0f);
+ glVertex3f(0.5f, 3.5f, -1.0f);
+ glVertex3f(2.0f, 3.5f, -1.0f);
+ glVertex3f(2.5f, 3.0f, -1.0f);
+ glVertex3f(2.5f, 0.0f, -1.0f);
+
+ //sampingkiri
+ glColor3f(0.0f,0.0f,0.0f);
+ glVertex3f(0.0f, 0.0f, 0.0f);
+ glVertex3f(0.0f, 3.0f, 0.0f);
+ glVertex3f(0.0f, 0.0f, -1.0f);
+ glVertex3f(0.0f, 3.0f, -1.0f);
+
+ //sampingkanan
+ glColor3f(0.0f,0.0f,0.0f);
+ glVertex3f(2.5f, 3.0f, 0.0f);
+ glVertex3f(2.5f, 0.0f, 0.0f);
+ glVertex3f(2.5f, 3.0f, -1.0f);
+ glVertex3f(2.5f, 0.0f, -1.0f);
+
+ //bawah
+ glColor3f(0.0f,0.0f,0.0f);
+ glVertex3f(0.0f, 0.0f, 0.0f);
+ glVertex3f(0.0f, 0.0f, -1.0f);
+ glVertex3f(2.5f, 0.0f, -1.0f);
+ glVertex3f(2.5f, 0.0f, 0.0f);
+
+ //serongkiri
+ glColor3f(0.0f,0.0f,0.0f);
+ glVertex3f(0.3f, 0.0f, 0.0f);
+ glVertex3f(0.5f, 3.5f, 0.0f);
+ glVertex3f(0.3f, 0.0f, -1.0f);
+ glVertex3f(0.5f, 3.5f, -1.0f);
+
+ //serongkanan
+ glColor3f(0.0f,0.0f,0.0f);
+ glVertex3f(2.0f, 3.5f, 0.0f);
+ glVertex3f(2.5f, 3.0f, 0.0f);
+ glVertex3f(2.0f, 3.5f, -1.0f);
+ glVertex3f(2.5f, 3.0f, -1.0f);
+
+ //ataskiri
+ glVertex3f(0.5f, 3.5f, 0.0f);
+ glVertex3f(0.5f, 3.5f, 0.0f);
+ glVertex3f(0.5f, 3.5f, -1.0f);
+ glVertex3f(0.5f, 3.3f, -1.0f);
+
+ //ataskanan
+ glVertex3f(2.0f, 3.5f, 0.0f);
+ glVertex3f(2.0f, 3.5f, 0.0f);
+ glVertex3f(2.0f, 3.5f, -1.0f);
+ glVertex3f(2.0f, 3.3f, -1.0f);
+
+
+ glEnd();
+}
+
+int sudut = 0;
+void display(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColor3d(1,0,0);
-
-    glPushMatrix();
-        glTranslated(-2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidSphere(1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(0,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidCone(1,1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidTorus(0.2,0.8,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(-2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireSphere(1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(0,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireCone(1,1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireTorus(0.2,0.8,slices,stacks);
-    glPopMatrix();
-
+    glLoadIdentity();
+    gluLookAt(4,4,4, // eye pos
+              0,0,0, // look at
+              0,0,1); // up
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+   glTranslatef(0.5f, 0.5f, 0.5f);
+    glRotatef(view_rotx, 1.0f, 0.0f, 0.0f);
+    glRotatef(view_roty, 0.0f, 1.0f, 0.0f);
+    glTranslatef(-0.5f, -0.5f, -0.5f);
+    //glRotatef(sudut, 0.0,1.0,0.0);
+    gmbr_drone();
+    sudut = sudut +3;
+    if(sudut == 360){
+        sudut = 0;
+    }
+    glFlush();
     glutSwapBuffers();
 }
 
-
-static void key(unsigned char key, int x, int y)
-{
-    switch (key)
-    {
-        case 27 :
-        case 'q':
-            exit(0);
-            break;
-
-        case '+':
-            slices++;
-            stacks++;
-            break;
-
-        case '-':
-            if (slices>3 && stacks>3)
-            {
-                slices--;
-                stacks--;
-            }
-            break;
-    }
-
+void timer(int value){
     glutPostRedisplay();
+    glutTimerFunc(65, timer, 0);
 }
 
-static void idle(void)
-{
-    glutPostRedisplay();
+void reshape(GLsizei width, GLsizei height){
+    if (height == 0) height = 1;
+    GLfloat aspect = (GLfloat)width / (GLfloat)height;glViewport(30, 6, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0f, aspect, 1.0f, 20.0f);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
+void mouseControl(int button, int state, int x, int y){
+    oldMouseX = x;
+    oldMouseY = y;
 }
 
-const GLfloat light_ambient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
-const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_position[] = { 2.0f, 5.0f, 5.0f, 0.0f };
-
-const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
-const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
-const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat high_shininess[] = { 100.0f };
-
-/* Program entry point */
-
-int main(int argc, char *argv[])
-{
+void mouseMotion(int x, int y){
+    int getX = x;
+    int getY = y;
+    float thetaY = 360.0f*(getX - oldMouseX)/640;
+    float thetaX = 360.0f*(getY - oldMouseY)/480;
+    oldMouseX = getX;
+    oldMouseY = getY;
+    view_rotx += thetaX;
+    view_roty += thetaY;
+}
+int main(int argc, char **argv){
     glutInit(&argc, argv);
-    glutInitWindowSize(640,480);
-    glutInitWindowPosition(10,10);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-
-    glutCreateWindow("GLUT Shapes");
-
-    glutReshapeFunc(resize);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitWindowSize(640, 480);
+    glutInitWindowPosition(50, 50);
+    glutCreateWindow("3d-control");
     glutDisplayFunc(display);
-    glutKeyboardFunc(key);
-    glutIdleFunc(idle);
-
-    glClearColor(1,1,1,1);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    glEnable(GL_LIGHT0);
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_LIGHTING);
-
-    glLightfv(GL_LIGHT0, GL_AMBIENT,  light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-    glMaterialfv(GL_FRONT, GL_AMBIENT,   mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE,   mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR,  mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-
+    glutReshapeFunc(reshape);
+    initGL();
+    glutMouseFunc(mouseControl);
+    glutMotionFunc(mouseMotion);
+    glutTimerFunc(0, timer, 0);
     glutMainLoop();
-
-    return EXIT_SUCCESS;
+    return 0;
 }
