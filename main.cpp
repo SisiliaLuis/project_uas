@@ -60,13 +60,13 @@ glColor3f(0.0f,0.0f,0.0f);
  glColor3f(0.0f,0.0f,0.0f);
  glVertex3f(0.0f, 0.0f, 0.0f);
  glVertex3f(0.0f, 3.0f, 0.0f);
- glVertex3f(0.0f, 0.0f, -1.0f);
  glVertex3f(0.0f, 3.0f, -1.0f);
+ glVertex3f(0.0f, 0.0f, -1.0f);
 
  //sampingkanan
  glColor3f(0.0f,0.0f,0.0f);
- glVertex3f(2.5f, 3.0f, 0.0f);
  glVertex3f(2.5f, 0.0f, 0.0f);
+ glVertex3f(2.5f, 3.0f, 0.0f);
  glVertex3f(2.5f, 3.0f, -1.0f);
  glVertex3f(2.5f, 0.0f, -1.0f);
 
@@ -91,18 +91,11 @@ glColor3f(0.0f,0.0f,0.0f);
  glVertex3f(2.0f, 3.5f, -1.0f);
  glVertex3f(2.5f, 3.0f, -1.0f);
 
- //ataskiri
+ //atas
  glVertex3f(0.5f, 3.5f, 0.0f);
  glVertex3f(0.5f, 3.5f, 0.0f);
  glVertex3f(0.5f, 3.5f, -1.0f);
  glVertex3f(0.5f, 3.3f, -1.0f);
-
- //ataskanan
- glVertex3f(2.0f, 3.5f, 0.0f);
- glVertex3f(2.0f, 3.5f, 0.0f);
- glVertex3f(2.0f, 3.5f, -1.0f);
- glVertex3f(2.0f, 3.3f, -1.0f);
-
 
  glEnd();
 }
