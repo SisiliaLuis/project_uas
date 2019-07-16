@@ -54,13 +54,12 @@ void vectorRotation(Vector refs, float angle){
 
 Vector depanBelakang, samping, vertikal;
 void badan(){
-float BODY_LENGTH=0.5f;
-float BODY_RADIUS=1.25f;
-int SLICES=4;
-int STACKS=1;
+    float BODY_LENGTH=0.5f;
+    float BODY_RADIUS=1.25f;
+    int SLICES=4;
+    int STACKS=1;
 
     GLUquadric *q = gluNewQuadric();
-
 	gluCylinder(q, BODY_RADIUS, BODY_RADIUS, BODY_LENGTH, SLICES, STACKS);
     gluDisk(q, 0.0f, BODY_RADIUS, SLICES, STACKS); //lingkaran untuk tutup atas
 	glColor3f(1.0f, 0.0f, 0.0f);
@@ -107,19 +106,16 @@ void sayap(){
 }
 
 void kaki(){
-float BODY_LENGTH=1.5f;
-float BODY_RADIUS=0.1f;
-int SLICES=50;
-int STACKS=50;
-
+    float BODY_LENGTH=1.5f;
+    float BODY_RADIUS=0.1f;
+    int SLICES=50;
+    int STACKS=50;
     GLUquadric *q = gluNewQuadric();
-
 	gluCylinder(q, BODY_RADIUS, BODY_RADIUS, BODY_LENGTH, SLICES, STACKS);
     gluDisk(q, 0.0f, BODY_RADIUS, SLICES, STACKS); //lingkaran untuk tutup atas
 	glColor3f(0.0f, 0.0f, 0.0f);
     glTranslatef(0.0f, 0.0f, BODY_LENGTH);
     gluDisk(q, 0.0f, BODY_RADIUS, SLICES, STACKS); //lingkaran untuk tutup bawah
-
 }
 
 void baling(){
@@ -433,7 +429,7 @@ void display(){
 
 	glPopMatrix();
 
-	 if (silinder){
+    if (silinder){
         silinderAngle += 15.0f;
     }
     if (silinder1){
